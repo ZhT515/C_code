@@ -1,0 +1,5 @@
+﻿  test.c
+F:\code\C\2-1\caishuzi\caishuzi\test.c(18,14): warning C4013: “rand”未定义；假设外部返回 int
+F:\code\C\2-1\caishuzi\caishuzi\test.c(36,7): warning C4013: “srand”未定义；假设外部返回 int
+F:\code\C\2-1\caishuzi\caishuzi\test.c(36,26): warning C4013: “time”未定义；假设外部返回 int
+  caishuzi.vcxproj -> F:\code\C\2-1\caishuzi\Debug\caishuzi.exe
