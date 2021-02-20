@@ -1,0 +1,4 @@
+﻿  1_23.c
+F:\code\C\1-23\1-23\1_23.c(143,19): warning C4013: “strlen”未定义；假设外部返回 int
+F:\code\C\1-23\1-23\1_23.c(152): warning C4716: “reverse”: 必须返回一个值
+  1-23.vcxproj -> F:\code\C\1-23\Debug\1-23.exe
