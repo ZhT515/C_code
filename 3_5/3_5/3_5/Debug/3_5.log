@@ -1,0 +1,5 @@
+﻿  3_5.c
+F:\code\C\3_5\3_5\3_5\3_5.c(13,25): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+F:\code\C\3_5\3_5\3_5\3_5.c(22,6): warning C4101: “n”: 未引用的局部变量
+F:\code\C\3_5\3_5\3_5\3_5.c(22,8): warning C4101: “num”: 未引用的局部变量
+  3_5.vcxproj -> F:\code\C\3_5\3_5\Debug\3_5.exe
