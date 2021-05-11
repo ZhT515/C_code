@@ -151,3 +151,135 @@ void HeapSort(int* a, int n)			// 堆排序1.建堆 2.排序
 		AdjustDown(a, i, 0);		//还剩i个
 	}
 }
+
+void BubbleSort(int* a, int n)
+{
+	for (int j = n; j > 0; --j)
+	{
+		int change = 0;
+		for (int i = 0; i < j - 1; i++)
+		{
+			if (a[i] > a[i + 1])
+			{
+				change = 1;
+				Swap(&a[i], &a[i + 1]);
+			}
+		}
+
+		if (change == 0)
+		{
+			break;
+		}
+	}
+}
+
+int GetMid(int* a, int left, int right)			//防止有序时退化
+{
+	int mid = (left + right) >> 1;			//相当于除二
+
+	if (a[left] > a[mid])
+	{
+		if (a[mid] > a[right])
+		{
+			return mid;
+		}
+		else if (a[left] < a[right])
+		{
+			return left;
+		}
+		else
+		{
+			return right;
+		}
+	}
+	else
+	{
+		if (a[right] > a[mid])
+		{
+			return mid;
+		}
+		else if (a[right] < a[left])
+		{
+			return left;
+		}
+		else
+		{
+			return right;
+		}
+	}
+}
+
+// 快速排序hoare版本
+int PartSort1(int* a, int left, int right)
+
+{
+	int midIndex = GetMid(a, left, right);
+	Swap(&a[left], &a[midIndex]);				//把找到的中放在最左侧，不用改算法
+
+	int keyi = left;
+
+	while (left < right)
+	{
+		while (left < right && a[right] >= a[keyi])			//做key的另一个先走，就一定是比key小的停下来
+		{
+			right--;
+		}
+
+		while (left < right && a[left] <= a[keyi])			//left < right &&防止越界
+		{
+			left++;
+		}
+
+		Swap(&a[right], &a[left]);
+	}
+
+	Swap(&a[keyi], &a[left]);		//交换，把key放在应在的位置
+
+	return left;
+}
+
+
+
+// 快速排序挖坑法
+int PartSort2(int* a, int left, int right)
+{
+	int midIndex = GetMid(a, left, right);
+	Swap(&a[left], &a[midIndex]);				//把找到的中放在最左侧，不用改算法
+
+	int key = left;
+
+
+	while (left < right)
+	{
+		while (left < right && a[right] >= key)			//做key的另一个先走，就一定是比key小的停下来
+		{
+			right--;
+		}
+
+		a[left] = a[right];			//把小的放在坑里，然后自己变成坑
+
+		while (left < right && a[left] <= key)			//left < right &&防止越界
+		{
+			left++;
+		}
+
+		a[right] = a[left];		//把大的放在坑里，然后自己变成坑
+	}
+	a[left] = key;
+	return left;
+}
+
+void QuickSort(int* a, int begin, int end )
+{
+	if (begin >= end)
+	{
+		return;
+	}
+
+
+	int keyi = PartSort2(a, begin, end);
+
+	QuickSort(a, begin, keyi - 1);		//左右两个子区间
+
+	QuickSort(a, keyi + 1, end);
+}

@@ -28,6 +28,20 @@ void TestHeapSort()
 	Print(a, sizeof(a) / sizeof(int));
 }
 
+void TestBubbleSort()
+{
+	int a[] = { 3, 4, 6, 1, 2, 8, 0, 5, 7 };
+	BubbleSort(a, sizeof(a) / sizeof(int));
+	Print(a, sizeof(a) / sizeof(int));
+}
+
+void TestQuickSortSort()
+{
+	int a[] = { 3, 4, 6, 1, 2, 8, 0, 5, 7 };
+	QuickSort(a, 0,sizeof(a) / sizeof(int)-1);
+	Print(a, sizeof(a) / sizeof(int));
+}
+
 void TestOP()					//时间测试
 {
 	srand(time(0));
@@ -63,5 +77,5 @@ void TestOP()					//时间测试
 
 int main()
 {
-	TestHeapSort();
+	TestQuickSortSort();
 }
