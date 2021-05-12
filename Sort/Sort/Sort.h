@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include<assert.h>
+#include"Stack.h"
 
 // 排序实现的接口
 
@@ -29,3 +30,6 @@ int PartSort2(int* a, int left, int right);
 // 快速排序前后指针法
 int PartSort3(int* a, int left, int right);
 void QuickSort(int* a, int begin, int end);
+
+//非递归
+void QuickSortNonR(int* a, int begin, int end);

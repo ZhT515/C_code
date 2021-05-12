@@ -42,6 +42,13 @@ void TestQuickSortSort()
 	Print(a, sizeof(a) / sizeof(int));
 }
 
+void TestQuickSortNonR()
+{
+	int a[] = { 3, 4, 6, 1, 2, 8, 0, 5, 7 };
+	QuickSortNonR(a, 0, sizeof(a) / sizeof(int) - 1);
+	Print(a, sizeof(a) / sizeof(int));
+}
+
 void TestOP()					//时间测试
 {
 	srand(time(0));
@@ -67,8 +74,12 @@ void TestOP()					//时间测试
 	int end1 = clock();
 
 	int begin2 = clock();
-	ShellSort(a1, N);
+	ShellSort(a2, N);
 	int end2 = clock();
+
+	int begin3 = clock();
+	QuickSort(a3, 0, N - 1);
+	int end3 = clock();
 
 	printf("InsertSort:%d\n", end1 - begin1);
 	printf("InsertSort:%d\n", end2 - begin2);
@@ -77,5 +88,5 @@ void TestOP()					//时间测试
 
 int main()
 {
-	TestQuickSortSort();
+	TestQuickSortNonR();
 }

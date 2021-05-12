@@ -246,7 +246,7 @@ int PartSort2(int* a, int left, int right)
 	int midIndex = GetMid(a, left, right);
 	Swap(&a[left], &a[midIndex]);				//把找到的中放在最左侧，不用改算法
 
-	int key = left;
+	int key = a[left];							//存起来
 
 
 	while (left < right)
@@ -269,6 +269,27 @@ int PartSort2(int* a, int left, int right)
 	return left;
 }
 
+int PartSort3(int* a, int left, int right) //前后指针
+{
+	int midIndex = GetMid(a, left, right);
+	Swap(&a[left], &a[midIndex]);
+
+	int keyi = left;
+	int per = left, cur = left + 1;
+	while (cur <= right)
+	{
+		if (a[cur] <= a[keyi] && ++per != cur)
+		{
+			Swap(&a[cur], &a[per]);
+		}
+
+		cur++;
+	}
+
+	Swap(&a[keyi], &a[per]);
+	return per;			//返回per,此时per才是本次排序的key
+}
+
 void QuickSort(int* a, int begin, int end )
 {
 	if (begin >= end)
@@ -276,10 +297,53 @@ void QuickSort(int* a, int begin, int end )
 		return;
 	}
 
+	if (end - begin > 20)		//小区间优化，小于10时减少递归
+	{
+		int keyi = PartSort3(a, begin, end);
 
-	int keyi = PartSort2(a, begin, end);
+		QuickSort(a, begin, keyi - 1);		//左右两个子区间
 
-	QuickSort(a, begin, keyi - 1);		//左右两个子区间
-
-	QuickSort(a, keyi + 1, end);
+		QuickSort(a, keyi + 1, end);
+	}
+	else
+	{
+		InsertSort(a + begin, end - begin + 1); //注意区间
+	}
 }
+
+
+//快排非递归
+//用栈来保存下来要处理的区间
+void QuickSortNonR(int* a, int begin, int end)
+{
+	Stack st;
+	StackInit(&st);
+
+	StackPush(&st, begin);				//先把初始的给进去
+	StackPush(&st, end);
+
+	while (StackEmpty(&st))				//不为空就继续
+	{
+		int left, right;
+		right = StackTop(&st);			//将数据取出
+		StackPop(&st);
+
+		left = StackTop(&st);			//存先左后右,取时反过来
+		StackPop(&st);
+
+		int keyi = PartSort3(a, left, right);
+
+		if (keyi - 1 > left)		//左右区间不为零
+		{
+			StackPush(&st, left);					//key的左侧
+			StackPush(&st, keyi - 1);
+		}
+
+		if (keyi + 1 < right)
+		{
+			StackPush(&st, keyi + 1);				//key的右侧
+			StackPush(&st, right);
+		}
+	}
+}
+
