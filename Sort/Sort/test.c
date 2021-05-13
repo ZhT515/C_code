@@ -49,6 +49,13 @@ void TestQuickSortNonR()
 	Print(a, sizeof(a) / sizeof(int));
 }
 
+void TestMergeSrt()
+{
+	int a[] = { 3, 4, 6, 1, 2, 8, 0, 5, 7 };
+	MergeSrt(a, sizeof(a) / sizeof(int));
+	Print(a, sizeof(a) / sizeof(int));
+}
+
 void TestOP()					//时间测试
 {
 	srand(time(0));
@@ -88,5 +95,5 @@ void TestOP()					//时间测试
 
 int main()
 {
-	TestQuickSortNonR();
+	TestMergeSrt();
 }

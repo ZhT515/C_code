@@ -33,3 +33,9 @@ void QuickSort(int* a, int begin, int end);
 
 //非递归
 void QuickSortNonR(int* a, int begin, int end);
+
+//归并
+void MergeSrt(int* a, int n);
+
+//归并,非递归
+void MergeSrtNonR(int* a, int n);

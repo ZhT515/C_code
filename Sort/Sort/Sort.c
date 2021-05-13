@@ -347,3 +347,59 @@ void QuickSortNonR(int* a, int begin, int end)
 	}
 }
 
+
+void _MergeSrt(int* a,int* tmp, int left, int right)
+{
+	if (left >= right)				//最小单位
+		return;
+
+	int mid = (left + right) >> 1;		//找中间
+	_MergeSrt(a, tmp, left, mid);	//左右半边排序，mid本身也要处理，不能-1
+	_MergeSrt(a, tmp, mid + 1, right);
+
+	//归并,两个区间的合并
+	int begin1 = left, end1 = mid;
+	int begin2 = mid + 1, end2 = right;
+	int i = left;					//tmp下表
+
+	while (begin1 <= end1 && begin2 <= end2)		//有一区间走完就完了
+	{
+		if (a[begin1] > a[begin2])
+			tmp[i++] = a[begin2++];				//合并
+		else
+			tmp[i++] = a[begin1++];
+	}
+
+	while(begin1 <= end1)				//把剩下的也添加到数组
+		tmp[i++] = a[begin1++];
+
+	while (begin2 <= end2)
+		tmp[i++] = a[begin2++];
+
+	for (int j = left; j <= right; j++)			//拷贝回原数组,j可以等于RIGHT
+	{
+		a[j] = tmp[j];
+	}
+}
+
+
+// 时间复杂度：O(N*logN)
+// 空间复杂度：O(N)
+void MergeSrt(int* a, int n)
+{
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	if (tmp == NULL)
+	{
+		exit(-1);
+	}
+
+	_MergeSrt(a, tmp, 0, n - 1);
+
+	free(tmp);
+}
+
+//归并,非递归
+void MergeSrtNonR(int* a, int n)
+{
+
+}
