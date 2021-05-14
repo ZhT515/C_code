@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<time.h>
 #include<assert.h>
 #include"Stack.h"
@@ -39,3 +40,6 @@ void MergeSrt(int* a, int n);
 
 //归并,非递归
 void MergeSrtNonR(int* a, int n);
+
+
+void CountSort(int* a, int n);		//计数排序

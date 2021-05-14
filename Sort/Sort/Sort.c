@@ -347,6 +347,31 @@ void QuickSortNonR(int* a, int begin, int end)
 	}
 }
 
+void _Merge(int* a, int* tmp, int begin11,int end11, int begin22, int end22)			//合并两个部分
+{
+	int begin1 = begin11, end1 = end11;
+	int begin2 = begin22, end2 = end22;
+	int i = begin11;					//tmp下表
+
+	while (begin1 <= end1 && begin2 <= end2)		//有一区间走完就完了
+	{
+		if (a[begin1] > a[begin2])
+			tmp[i++] = a[begin2++];				//合并
+		else
+			tmp[i++] = a[begin1++];
+	}
+
+	while (begin1 <= end1)				//把剩下的也添加到数组
+		tmp[i++] = a[begin1++];
+
+	while (begin2 <= end2)
+		tmp[i++] = a[begin2++];
+
+	for (int j = begin11; j <= end22; j++)			//拷贝回原数组,j可以等于RIGHT
+	{
+		a[j] = tmp[j];
+	}
+}
 
 void _MergeSrt(int* a,int* tmp, int left, int right)
 {
@@ -360,26 +385,9 @@ void _MergeSrt(int* a,int* tmp, int left, int right)
 	//归并,两个区间的合并
 	int begin1 = left, end1 = mid;
 	int begin2 = mid + 1, end2 = right;
-	int i = left;					//tmp下表
 
-	while (begin1 <= end1 && begin2 <= end2)		//有一区间走完就完了
-	{
-		if (a[begin1] > a[begin2])
-			tmp[i++] = a[begin2++];				//合并
-		else
-			tmp[i++] = a[begin1++];
-	}
+	_Merge(a, tmp, begin1, end1, begin2, end2);
 
-	while(begin1 <= end1)				//把剩下的也添加到数组
-		tmp[i++] = a[begin1++];
-
-	while (begin2 <= end2)
-		tmp[i++] = a[begin2++];
-
-	for (int j = left; j <= right; j++)			//拷贝回原数组,j可以等于RIGHT
-	{
-		a[j] = tmp[j];
-	}
 }
 
 
@@ -401,5 +409,69 @@ void MergeSrt(int* a, int n)
 //归并,非递归
 void MergeSrtNonR(int* a, int n)
 {
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	if (tmp == NULL)
+	{
+		exit(-1);
+	}
 
+	int gap = 1;
+
+	while (gap < n)		//从1开始，到n,不断地合并分组，进行归并，递归的下半部分。
+	{
+		for (int i = 0;i<n ;i += 2 * gap)			//找不同的小组
+		{
+			int begin1 = i, end1 = i + gap - 1;			//第一个区间，i- (i+gap-1)
+			int begin2 = i + gap, end2 = i + 2 * gap - 1;			//第二个区间i + gap- i + 2 * gap - 1（i + gap+gap-1）
+																	//所以第二次gap直接乘二，因为每2gap内都不需要再拍
+			if (begin2 >= n)			//1.第一个区间就不够了，2.第二个区间不存在 3.第二个区间不玩整 ， 1和2的情况一样，1不完整自然2就不存在，且只存在有序的1或不完整的有序1，都是不需要进行继续排序的。
+										//3.的情况需要将不完整的第二区间进行归并。
+			{
+				break;					//数组的最后。也就是这个GAP最后的一次循环，所以直接跳出即可
+			}
+
+			if (end2 >= n)
+			{
+				end2 = n - 1;			//修正
+			}
+
+			_Merge(a, tmp, begin1, end1, begin2, end2);
+		}
+
+		gap *= 2;			//每次是之前的2倍，11一组，22一组，44一组，这样每组内部就是排好序的
+	}
+
+	free(tmp);
+}
+
+void CountSort(int* a, int n)			//计数排序
+{
+	int max = a[0], min = a[0];			//相对映射
+	int i = 0;
+	for (i = 0 ; i < n; i++)
+	{
+		if (max < a[i])
+			max = a[i];
+		if (min > a[i])
+			min = a[i];
+	}
+
+	int range = max - min + 1;			//范围
+	int* count = (int*)malloc(sizeof(int) * range);
+	memset(count, 0, sizeof(int) * range);						//初始化
+	for (int k = 0; k < n; k++)
+	{
+		count[a[k] - min]++;			//相对位置加1
+	}
+
+	i = 0;
+	for (int j = 0; j < range; j++)
+	{
+		while (count[j]--)				//同一个位置的n次
+		{
+			a[i++] = j + min;
+		}
+	}
+
+	free(count);
 }
