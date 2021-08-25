@@ -1,0 +1,4 @@
+﻿  Test.c
+F:\code\Data_structure\BinTree\BinTree\Test.c(190,3): warning C4033: “BinaryTreeDestry”必须返回值
+F:\code\Data_structure\BinTree\BinTree\Test.c(195): warning C4716: “BinaryTreeDestry”: 必须返回一个值
+  BinTree.vcxproj -> F:\code\Data_structure\BinTree\Debug\BinTree.exe
